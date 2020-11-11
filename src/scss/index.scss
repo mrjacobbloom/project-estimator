@@ -1,0 +1,141 @@
+$accent-color: #bf6fa8;
+$shadow-color: rgba(0, 0, 0, 0.15);
+$tree-indent: 20px;
+
+* {
+  transition: all 0.4s;
+}
+
+body {
+  background: $accent-color;
+  padding: 20px;
+  font-family: Helvetica, sans-serif;
+}
+
+#app {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  transition: all 0.2s;
+  overflow-x: auto;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  margin-left: 8px;
+  border: 1px solid $accent-color;
+  color: $accent-color;
+  background-color: white;
+  line-height: 1.5;
+  font-size: 11pt;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 0 0 $shadow-color;
+  transform: scale(1);
+
+  &:hover {
+    box-shadow: 0 2px 3px $shadow-color;
+    transform: scale(1.05);
+  }
+}
+
+ul.task-children {
+  position: relative;
+  padding-left: $tree-indent;
+  
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-left: 1px solid $accent-color;
+    height: calc(100% - 0.5em - 11px)
+  }
+}
+
+li.task {
+  position: relative;
+  padding: 5px 0;
+  
+  ul.task-children > &::before {
+    content: '';
+    display: block;
+    width: $tree-indent;
+    border-bottom: 1px solid $accent-color;
+    position: absolute;
+    left: -1 * $tree-indent;
+    top: calc(10px + .5em);
+  }
+}
+
+/* https://css-tricks.com/auto-growing-inputs-textareas/ */
+.input-wrap {
+  position: relative;
+  
+  .width-machine {
+    visibility: hidden;
+    padding: 0 5px;
+  }
+  
+  input {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    box-sizing: border-box;
+    font-size: inherit;
+  }
+}
+
+.task-row {
+  margin-left: -5px;
+  white-space: nowrap;
+
+  .task-buttons {
+    display: inline-block;
+    opacity: 0.2;
+  }
+  &:hover .task-buttons {
+    opacity: 1;
+  }
+  
+  input {
+    border: none;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    padding: 3px;
+    
+    &:focus,
+    &:not(:disabled):hover {
+      border-bottom-color: $accent-color;
+    }
+    
+    &[name="time"] {
+      color: $accent-color;
+      
+      &:disabled {
+        background: #eee;
+      }
+    }
+  }
+
+  .color-accent {
+    color: $accent-color;
+  }
+}

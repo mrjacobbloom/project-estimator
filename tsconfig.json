@@ -1,0 +1,14 @@
+{
+  "include": [
+    "src/ts"
+  ],
+  "compilerOptions": {
+    "outDir": "dist/js",
+    "jsx": "react",
+    "target": "ES6",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "inlineSources": true,
+  }
+}

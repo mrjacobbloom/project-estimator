@@ -1,0 +1,127 @@
+* {
+  transition: all 0.4s;
+}
+
+body {
+  background: #bf6fa8;
+  padding: 20px;
+  font-family: Helvetica, sans-serif;
+}
+
+#app {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  transition: all 0.2s;
+  overflow-x: auto;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  margin-left: 8px;
+  border: 1px solid #bf6fa8;
+  color: #bf6fa8;
+  background-color: white;
+  line-height: 1.5;
+  font-size: 11pt;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
+  transform: scale(1);
+}
+button:hover {
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+}
+
+ul.task-children {
+  position: relative;
+  padding-left: 20px;
+}
+ul.task-children::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-left: 1px solid #bf6fa8;
+  height: calc(100% - 0.5em - 11px);
+}
+
+li.task {
+  position: relative;
+  padding: 5px 0;
+}
+ul.task-children > li.task::before {
+  content: "";
+  display: block;
+  width: 20px;
+  border-bottom: 1px solid #bf6fa8;
+  position: absolute;
+  left: -20px;
+  top: calc(10px + .5em);
+}
+
+/* https://css-tricks.com/auto-growing-inputs-textareas/ */
+.input-wrap {
+  position: relative;
+}
+.input-wrap .width-machine {
+  visibility: hidden;
+  padding: 0 5px;
+}
+.input-wrap input {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  box-sizing: border-box;
+  font-size: inherit;
+}
+
+.task-row {
+  margin-left: -5px;
+  white-space: nowrap;
+}
+.task-row .task-buttons {
+  display: inline-block;
+  opacity: 0.2;
+}
+.task-row:hover .task-buttons {
+  opacity: 1;
+}
+.task-row input {
+  border: none;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 3px;
+}
+.task-row input:focus, .task-row input:not(:disabled):hover {
+  border-bottom-color: #bf6fa8;
+}
+.task-row input[name=time] {
+  color: #bf6fa8;
+}
+.task-row input[name=time]:disabled {
+  background: #eee;
+}
+.task-row .color-accent {
+  color: #bf6fa8;
+}
+
+/*# sourceMappingURL=index.css.map */

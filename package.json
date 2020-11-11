@@ -1,0 +1,30 @@
+{
+  "name": "project-estimator",
+  "version": "1.0.0",
+  "description": "A lil tool to estimate how much time a project will take",
+  "main": "index.js",
+  "scripts": {
+    "build-scss": "npx sass src/scss/:dist/css/",
+    "build-ts": "npx rollup -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrjacobbloom/project-estimator.git"
+  },
+  "author": "Jacob Bloom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrjacobbloom/project-estimator/issues"
+  },
+  "homepage": "https://github.com/mrjacobbloom/project-estimator#readme",
+  "dependencies": {
+    "@types/react": "^16.9.56",
+    "@types/react-dom": "^16.9.9",
+    "@types/react-redux": "^7.1.11",
+    "@types/redux": "^3.6.0",
+    "rollup": "^2.33.1",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "sass": "^1.29.0",
+    "typescript": "^4.0.5"
+  }
+}
