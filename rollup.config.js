@@ -8,7 +8,6 @@ export default {
       'react-dom': 'ReactDOM',
       'redux': 'Redux',
       'react-redux': 'ReactRedux',
-      'immutable': 'Immutable'
     },
     file: './dist/js/index.bundle.js',
     format: 'iife',
