@@ -95,10 +95,14 @@
   }
 
   function defaultState() {
-      const serialized = window.localStorage.getItem('timeEstimate');
+      const hashSerialized = window.location.hash && window.decodeURIComponent(window.location.hash.substring(1));
+      const localStorageSerialized = window.localStorage.getItem('timeEstimate');
       let rootTask;
-      if (serialized) {
-          rootTask = Task.deserialize(serialized);
+      if (hashSerialized) {
+          rootTask = Task.deserialize(hashSerialized);
+      }
+      else if (localStorageSerialized) {
+          rootTask = Task.deserialize(localStorageSerialized);
       }
       else {
           rootTask = Task.getDefault();
@@ -164,7 +168,9 @@
   function createPEStore() {
       const store = Redux.createStore(reducer);
       store.subscribe(() => {
-          window.localStorage.setItem('timeEstimate', JSON.stringify(store.getState().rootTask.serialize()));
+          const serialized = JSON.stringify(store.getState().rootTask.serialize());
+          window.localStorage.setItem('timeEstimate', serialized);
+          location.hash = '#' + window.encodeURIComponent(serialized);
       });
       return store;
   }
