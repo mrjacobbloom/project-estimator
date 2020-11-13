@@ -214,11 +214,13 @@
           children = (React.createElement("ul", { className: "task-children", ref: childrenRef }, task.children.map((childTask, idx) => (React.createElement(TaskView, { parentTask: task, task: childTask, key: idx })))));
       }
       if (props.exporting) {
+          const exportText = task.time
+              ? props.parentTask
+                  ? `${task.description} - ${(_b = task.time.stringify()) !== null && _b !== void 0 ? _b : 0} hrs`
+                  : `${task.description} - ${(_c = task.time.stringify()) !== null && _c !== void 0 ? _c : 0} hrs, or ${task.time.toWeeksString()} wks`
+              : task.description;
           return (React.createElement("li", { className: "task" },
-              React.createElement("div", { className: "task-row" },
-                  task.description,
-                  " - ", (_c = (_b = task.time) === null || _b === void 0 ? void 0 : _b.stringify()) !== null && _c !== void 0 ? _c : 0,
-                  " hrs"),
+              React.createElement("div", { className: "task-row" }, exportText),
               children));
       }
       const deleteButton = props.parentTask ? (React.createElement("button", { name: "delete-task", type: "button", onClick: () => props.onDeleteTask(task, props.parentTask) }, "\uD83D\uDDD1 Delete")) : null;

@@ -28,10 +28,15 @@ export const TaskView = connect(({task, ...props}: TaskViewProps): JSX.Element =
   }
 
   if (props.exporting) {
+    const exportText = task.time
+      ? props.parentTask
+        ? `${task.description} - ${task.time.stringify() ?? 0} hrs`
+        : `${task.description} - ${task.time.stringify() ?? 0} hrs, or ${task.time.toWeeksString()} wks`
+      : task.description;
     return (
       <li className="task">
         <div className="task-row">
-          {task.description} - {task.time?.stringify() ?? 0} hrs
+          {exportText}
       </div>
         {children}
       </li>
