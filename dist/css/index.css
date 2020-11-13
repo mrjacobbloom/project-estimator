@@ -105,6 +105,7 @@ ul.task-children > li.task::before {
 }
 
 .task-row {
+  min-height: 29px;
   margin-left: -5px;
   white-space: nowrap;
   display: flex;

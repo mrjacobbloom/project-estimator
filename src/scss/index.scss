@@ -115,6 +115,7 @@ li.task {
 }
 
 .task-row {
+  min-height: 29px; // avoid jump during export
   margin-left: -5px;
   white-space: nowrap;
   display: flex;
