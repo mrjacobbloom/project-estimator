@@ -89,6 +89,7 @@ ul.task-children > li.task::before {
 }
 .input-wrap .width-machine {
   visibility: hidden;
+  white-space: pre;
   padding: 0 5px;
   min-width: calc(1ch);
   display: inline-block;
