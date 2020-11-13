@@ -295,6 +295,7 @@
                   return;
               }
               range.selectNode(el);
+              selection.removeAllRanges(); // chrome intervention https://stackoverflow.com/questions/43260617/selection-addrange-is-deprecated-and-will-be-removed-from-chrome
               selection.addRange(range);
               document.execCommand('copy');
               selection.removeRange(range);
