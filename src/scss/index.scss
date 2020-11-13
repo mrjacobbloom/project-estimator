@@ -1,3 +1,4 @@
+$font: 'Roboto Slab', Helvetica, sans-serif;
 $accent-color: #bf6fa8;
 $shadow-color: rgba(0, 0, 0, 0.15);
 $tree-indent: 20px;
@@ -9,7 +10,7 @@ $tree-indent: 20px;
 body {
   background: $accent-color;
   padding: 20px;
-  font-family: Helvetica, sans-serif;
+  font-family: $font;
 }
 
 #app {
@@ -55,6 +56,10 @@ button {
   }
 }
 
+#bottom-buttons button:first-child {
+  margin-left: 0;
+}
+
 ul.task-children {
   position: relative;
   padding-left: $tree-indent;
@@ -88,17 +93,22 @@ li.task {
 /* https://css-tricks.com/auto-growing-inputs-textareas/ */
 .input-wrap {
   position: relative;
+  align-self: stretch;
   
   .width-machine {
     visibility: hidden;
     padding: 0 5px;
+    min-width: calc(1ch);
+    display: inline-block;
   }
   
   input {
     position: absolute;
     width: 100%;
+    height: 100%;
     left: 0;
     box-sizing: border-box;
+    font-family: $font;
     font-size: inherit;
   }
 }
@@ -106,6 +116,9 @@ li.task {
 .task-row {
   margin-left: -5px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  align-content: center;
 
   .task-buttons {
     display: inline-block;
@@ -116,7 +129,6 @@ li.task {
   }
   
   input {
-    border: none;
     border: 2px solid transparent;
     border-radius: 4px;
     padding: 3px;
@@ -124,6 +136,10 @@ li.task {
     &:focus,
     &:not(:disabled):hover {
       border-bottom-color: $accent-color;
+    }
+
+    &:placeholder-shown {
+      border-bottom-color: #ff5858;
     }
     
     &[name="time"] {

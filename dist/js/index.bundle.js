@@ -7,11 +7,13 @@
           this.end = end;
       }
       stringify() {
-          return this.start === this.end ? String(this.start) : `${this.start}-${this.end}`;
+          const start = Duration.toRoundedString(this.start);
+          const end = Duration.toRoundedString(this.end);
+          return start === end ? start : `${start}-${end}`;
       }
       toWeeksString() {
-          const startWk = (this.start / 40).toFixed(1);
-          const endWk = (this.end / 40).toFixed(1);
+          const startWk = Duration.toRoundedString(this.start / 40);
+          const endWk = Duration.toRoundedString(this.end / 40);
           return startWk === endWk ? startWk : `${startWk}-${endWk}`;
       }
       serialize() {
@@ -20,10 +22,15 @@
               end: this.end,
           };
       }
+      static toRoundedString(num) {
+          return String(Math.round(num * 100) / 100);
+      }
       static sum(...summands) {
           let start = 0;
           let end = 0;
           for (const summand of summands) {
+              if (!summand)
+                  continue;
               start += summand.start;
               end += summand.end;
           }
@@ -38,7 +45,7 @@
   }
 
   class Task {
-      constructor(description = '', _time = new Duration()) {
+      constructor(description = '', _time = null) {
           this.description = description;
           this._time = _time;
           this.children = [];
@@ -64,15 +71,16 @@
           return task;
       }
       serialize() {
+          var _a, _b;
           return {
               description: this.description,
-              time: this.time.serialize(),
+              time: (_b = (_a = this.time) === null || _a === void 0 ? void 0 : _a.serialize()) !== null && _b !== void 0 ? _b : null,
               children: this.children.map(child => child.serialize()),
           };
       }
       static deserialize(serialized) {
           const pojo = typeof serialized === 'string' ? JSON.parse(serialized) : serialized;
-          const task = new Task(pojo.description, new Duration(pojo.time.start, pojo.time.end));
+          const task = new Task(pojo.description, pojo.time && new Duration(pojo.time.start, pojo.time.end));
           for (const pojoChild of pojo.children) {
               task.children.push(Task.deserialize(pojoChild));
           }
@@ -197,6 +205,7 @@
   };
 
   const TaskView = connect((_a) => {
+      var _b, _c, _d;
       var { task } = _a, props = __rest(_a, ["task"]);
       const [timeInputValue, setTimeInputValue] = React.useState(null);
       const childrenRef = React.useRef(null);
@@ -208,14 +217,13 @@
           return (React.createElement("li", { className: "task" },
               React.createElement("div", { className: "task-row" },
                   task.description,
-                  " - ",
-                  task.time.stringify(),
+                  " - ", (_c = (_b = task.time) === null || _b === void 0 ? void 0 : _b.stringify()) !== null && _c !== void 0 ? _c : 0,
                   " hrs"),
               children));
       }
       const deleteButton = props.parentTask ? (React.createElement("button", { name: "delete-task", type: "button", onClick: () => props.onDeleteTask(task, props.parentTask) }, "\uD83D\uDDD1 Delete")) : null;
       const timeBlur = () => {
-          const asDuration = Duration.parse(timeInputValue);
+          const asDuration = timeInputValue ? Duration.parse(timeInputValue) : null;
           props.onUpdateTaskTime(task, asDuration);
           setTimeInputValue(null);
       };
@@ -230,17 +238,19 @@
               }
           });
       };
-      let hrsLabelText = ' hrs)';
-      if (!props.parentTask) {
-          hrsLabelText = ` hrs, or ${task.time.toWeeksString()} wks)`;
+      let hrsLabelText = 'hrs)';
+      if (!props.parentTask && task.time) {
+          hrsLabelText = `hrs, or ${task.time.toWeeksString()} wks)`;
       }
       return (React.createElement("li", { className: "task" },
           React.createElement("div", { className: "task-row" },
-              React.createElement(ResizeyInput, { name: "description", value: task.description, onChange: (ev) => props.onUpdateTaskDescription(task, ev.currentTarget.value) }),
+              React.createElement(ResizeyInput, { name: "description", placeholder: " ", value: task.description, onChange: (ev) => props.onUpdateTaskDescription(task, ev.currentTarget.value) }),
               "\u00A0",
               React.createElement("span", { className: "color-accent" }, "("),
-              React.createElement(ResizeyInput, { name: "time", disabled: !!task.children.length, value: timeInputValue !== null && timeInputValue !== void 0 ? timeInputValue : task.time.stringify(), onChange: (ev) => setTimeInputValue(ev.currentTarget.value), onFocus: (ev) => setTimeInputValue(ev.currentTarget.value), onBlur: timeBlur }),
-              React.createElement("span", { className: "color-accent" }, hrsLabelText),
+              React.createElement(ResizeyInput, { name: "time", disabled: !!task.children.length, placeholder: "0", value: timeInputValue !== null && timeInputValue !== void 0 ? timeInputValue : (_d = task.time) === null || _d === void 0 ? void 0 : _d.stringify(), onChange: (ev) => setTimeInputValue(ev.currentTarget.value), onFocus: (ev) => setTimeInputValue(ev.currentTarget.value), onBlur: timeBlur }),
+              React.createElement("span", { className: "color-accent" },
+                  "\u00A0",
+                  hrsLabelText),
               React.createElement("div", { className: "task-buttons" },
                   React.createElement("button", { name: "add-subtask", type: "button", onClick: createSubtask }, "\u2795 Add Sub-Task"),
                   deleteButton)),
@@ -256,8 +266,9 @@
       return (React.createElement("div", null,
           React.createElement("ul", { id: "taskTree" },
               React.createElement(TaskView, { task: props.rootTask, parentTask: null })),
-          React.createElement("button", { onClick: props.onExport }, "\uD83D\uDCCB Copy"),
-          React.createElement("button", { onClick: confirmReset }, "\u26A0\uFE0F Reset")));
+          React.createElement("div", { id: "bottom-buttons" },
+              React.createElement("button", { onClick: props.onExport }, "\uD83D\uDCCB Copy"),
+              React.createElement("button", { onClick: confirmReset }, "\u26A0\uFE0F Reset"))));
   });
 
   const App = () => (React.createElement("div", null,

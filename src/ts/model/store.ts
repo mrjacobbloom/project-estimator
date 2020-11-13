@@ -78,7 +78,7 @@ function matchDispatchToProps(dispatch: Redux.Dispatch<PEAction.Action>): Reduce
     onCreateSubtask: (parentTask: Task) => dispatch({ type: 'CREATE_SUBTASK', parentTask }),
     onDeleteTask: (task: Task, parentTask: Task) => dispatch({ type: 'DELETE_TASK', task, parentTask }),
     onUpdateTaskDescription: (task: Task, value: string) => dispatch({ type: 'UPDATE_TASK_DESCRIPTION', task, value }),
-    onUpdateTaskTime: (task: Task, value: Duration) => dispatch({ type: 'UPDATE_TASK_TIME', task, value }),
+    onUpdateTaskTime: (task: Task, value: Duration | null) => dispatch({ type: 'UPDATE_TASK_TIME', task, value }),
     onExport: () => dispatch({ type: 'EXPORT' }),
     onReset: () => dispatch({ type: 'RESET' }),
   };

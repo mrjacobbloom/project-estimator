@@ -27,7 +27,7 @@ declare namespace PEAction {
   interface UpdateTaskTime {
     type: 'UPDATE_TASK_TIME';
     task: Task;
-    value: Duration;
+    value: Duration | null;
   }
 
   interface Export {
@@ -57,7 +57,7 @@ interface ReducerPropsDispatchPart {
   onCreateSubtask: (parentTask: Task) => PEAction.CreateSubtask;
   onDeleteTask: (task: Task, parentTask: Task) => PEAction.DeleteTask;
   onUpdateTaskDescription: (task: Task, value: string) => PEAction.UpdateTaskDescription;
-  onUpdateTaskTime: (task: Task, value: Duration) => PEAction.UpdateTaskTime;
+  onUpdateTaskTime: (task: Task, value: Duration | null) => PEAction.UpdateTaskTime;
   onExport: () => PEAction.Export;
   onReset: () => PEAction.Reset;
 }
@@ -66,6 +66,6 @@ type ReducerProps = ReducerPropsStatePart & ReducerPropsDispatchPart;
 
 interface SerializedTask {
   description: string;
-  time: { start: number; end: number; };
+  time: { start: number; end: number; } | null;
   children: SerializedTask[];
 }

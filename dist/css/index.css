@@ -5,7 +5,7 @@
 body {
   background: #bf6fa8;
   padding: 20px;
-  font-family: Helvetica, sans-serif;
+  font-family: "Roboto Slab", Helvetica, sans-serif;
 }
 
 #app {
@@ -50,6 +50,10 @@ button:hover {
   transform: scale(1.05);
 }
 
+#bottom-buttons button:first-child {
+  margin-left: 0;
+}
+
 ul.task-children {
   position: relative;
   padding-left: 20px;
@@ -81,22 +85,30 @@ ul.task-children > li.task::before {
 /* https://css-tricks.com/auto-growing-inputs-textareas/ */
 .input-wrap {
   position: relative;
+  align-self: stretch;
 }
 .input-wrap .width-machine {
   visibility: hidden;
   padding: 0 5px;
+  min-width: calc(1ch);
+  display: inline-block;
 }
 .input-wrap input {
   position: absolute;
   width: 100%;
+  height: 100%;
   left: 0;
   box-sizing: border-box;
+  font-family: "Roboto Slab", Helvetica, sans-serif;
   font-size: inherit;
 }
 
 .task-row {
   margin-left: -5px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
 .task-row .task-buttons {
   display: inline-block;
@@ -106,13 +118,15 @@ ul.task-children > li.task::before {
   opacity: 1;
 }
 .task-row input {
-  border: none;
   border: 2px solid transparent;
   border-radius: 4px;
   padding: 3px;
 }
 .task-row input:focus, .task-row input:not(:disabled):hover {
   border-bottom-color: #bf6fa8;
+}
+.task-row input:placeholder-shown {
+  border-bottom-color: #ff5858;
 }
 .task-row input[name=time] {
   color: #bf6fa8;

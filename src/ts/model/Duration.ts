@@ -2,12 +2,14 @@ export class Duration {
   constructor(public start = 0, public end = start) { }
 
   stringify() {
-    return this.start === this.end ? String(this.start) : `${this.start}-${this.end}`;
+    const start = Duration.toRoundedString(this.start)
+    const end = Duration.toRoundedString(this.end);
+    return start === end ? start : `${start}-${end}`;
   }
 
   toWeeksString() {
-    const startWk = (this.start / 40).toFixed(1);
-    const endWk = (this.end / 40).toFixed(1);
+    const startWk = Duration.toRoundedString(this.start / 40)
+    const endWk = Duration.toRoundedString(this.end / 40);
     return startWk === endWk ? startWk : `${startWk}-${endWk}`;
   }
 
@@ -18,10 +20,15 @@ export class Duration {
     };
   }
 
-  static sum(...summands: Duration[]) {
+  private static toRoundedString(num: number): string {
+    return String(Math.round(num * 100) / 100)
+  }
+
+  static sum(...summands: (Duration | null)[]) {
     let start = 0;
     let end = 0;
     for (const summand of summands) {
+      if (!summand) continue;
       start += summand.start;
       end += summand.end;
     }

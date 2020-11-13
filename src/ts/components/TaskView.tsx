@@ -31,7 +31,7 @@ export const TaskView = connect(({task, ...props}: TaskViewProps): JSX.Element =
     return (
       <li className="task">
         <div className="task-row">
-          {task.description} - {task.time.stringify()} hrs
+          {task.description} - {task.time?.stringify() ?? 0} hrs
       </div>
         {children}
       </li>
@@ -47,7 +47,7 @@ export const TaskView = connect(({task, ...props}: TaskViewProps): JSX.Element =
   ) : null;
 
   const timeBlur = () => {
-    const asDuration = Duration.parse(timeInputValue!);
+    const asDuration = timeInputValue ? Duration.parse(timeInputValue) : null;
     props.onUpdateTaskTime(task, asDuration);
     setTimeInputValue(null);
   }
@@ -62,15 +62,16 @@ export const TaskView = connect(({task, ...props}: TaskViewProps): JSX.Element =
       }
     });
   }
-  let hrsLabelText = ' hrs)';
-  if (!props.parentTask) {
-    hrsLabelText = ` hrs, or ${task.time.toWeeksString()} wks)`;
+  let hrsLabelText = 'hrs)';
+  if (!props.parentTask && task.time) {
+    hrsLabelText = `hrs, or ${task.time.toWeeksString()} wks)`;
   }
   return (
     <li className="task">
       <div className="task-row">
         <ResizeyInput
           name="description"
+          placeholder=" "
           value={task.description}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => props.onUpdateTaskDescription(task, ev.currentTarget.value)} />
         &nbsp;
@@ -78,11 +79,12 @@ export const TaskView = connect(({task, ...props}: TaskViewProps): JSX.Element =
         <ResizeyInput
           name="time"
           disabled={!!task.children.length}
-          value={timeInputValue ?? task.time.stringify()}
+          placeholder="0"
+          value={timeInputValue ?? task.time?.stringify()}
           onChange={(ev: React.ChangeEvent<HTMLInputElement>) => setTimeInputValue(ev.currentTarget.value)}
           onFocus={(ev: React.FocusEvent<HTMLInputElement>) => setTimeInputValue(ev.currentTarget.value)}
           onBlur={timeBlur} />
-        <span className="color-accent">{hrsLabelText}</span>
+        <span className="color-accent">&nbsp;{hrsLabelText}</span>
         <div className="task-buttons">
           <button
             name="add-subtask"

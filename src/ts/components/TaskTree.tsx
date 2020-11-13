@@ -16,8 +16,10 @@ export const TaskTree = connect((props: ReducerProps): JSX.Element => {
           parentTask={null}
         />
       </ul>
-      <button onClick={props.onExport}>&#x1F4CB; Copy</button>
-      <button onClick={confirmReset}>&#x26A0;&#xFE0F; Reset</button>
+      <div id="bottom-buttons">
+        <button onClick={props.onExport}>&#x1F4CB; Copy</button>
+        <button onClick={confirmReset}>&#x26A0;&#xFE0F; Reset</button>
+      </div>
     </div>
   );
 });
